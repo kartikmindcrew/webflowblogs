@@ -1,7 +1,7 @@
 exports.handler = async function(event) {
 
   const COLLECTION_ID = '6776e2989c1cc508e807b90d';
-  const API_TOKEN     = 'bd4b4f0e1062f2096779d4c462784bf9828d3f3eae021ed8355cf7c591adffc7'; // ✅ Secure
+  const API_TOKEN     = process.env.WEBFLOW_TOKEN; // ✅ Secure
 
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -25,15 +25,6 @@ exports.handler = async function(event) {
         }
       }
     );
-
-    if (!apiRes.ok) {
-      const err = await apiRes.text();
-      return {
-        statusCode: apiRes.status,
-        headers: corsHeaders,
-        body: JSON.stringify({ error: err })
-      };
-    }
 
     const data = await apiRes.json();
 
