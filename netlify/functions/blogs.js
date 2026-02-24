@@ -1,45 +1,62 @@
-@ -1,44 +0,0 @@
 exports.handler = async function(event) {
 
-  const COLLECTION_ID = '6776e2989c1cc508e807b90d';
-  const API_TOKEN     = process.env.WEBFLOW_TOKEN; // ✅ Secure
+  var COLLECTION_ID = "6776e2989c1cc508e807b90d";
+  var API_TOKEN = process.env.WEBFLOW_TOKEN;
 
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+  var corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
   };
 
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: corsHeaders, body: '' };
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: corsHeaders,
+      body: ""
+    };
   }
 
   try {
-    const limit = event.queryStringParameters?.limit || '3';
 
-    const apiRes = await fetch(
-      `https://api.webflow.com/v2/collections/${COLLECTION_ID}/items/live?limit=${limit}`,
+    var limit = "3";
+    if (event.queryStringParameters && event.queryStringParameters.limit) {
+      limit = event.queryStringParameters.limit;
+    }
+
+    var response = await fetch(
+      "https://api.webflow.com/v2/collections/" +
+      COLLECTION_ID +
+      "/items/live?limit=" +
+      limit,
       {
         headers: {
-          'Authorization': `Bearer ${API_TOKEN}`,
-          'accept': 'application/json',
+          "Authorization": "Bearer " + API_TOKEN,
+          "accept": "application/json"
         }
       }
     );
 
-    const data = await apiRes.json();
+    var data = await response.json();
 
     return {
       statusCode: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data)
     };
 
-  } catch (err) {
+  } catch (error) {
+
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: err.message })
+      body: JSON.stringify({
+        error: error.message
+      })
     };
+
   }
 };
