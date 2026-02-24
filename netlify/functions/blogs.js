@@ -36,7 +36,13 @@ exports.handler = async function(event) {
         }
       }
     );
-
+    
+exports.handler = async () => {
+  return {
+    statusCode: 200,
+    body: "Function working "
+  };
+};
     var data = await response.json();
 
     return {
