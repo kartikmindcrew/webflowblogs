@@ -1,8 +1,7 @@
 exports.handler = async function(event) {
 
   var COLLECTION_ID = "6776e2989c1cc508e807b90d";
-  var API_TOKEN = process.env.bd4b4f0e1062f2096779d4c462784bf9828d3f3eae021ed8355cf7c591adffc7;
-
+  const API_TOKEN     = process.env.544439b00157dbda58e147220f01586787987ed06cc536bfb8efd57eab3e743d;
   var corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
